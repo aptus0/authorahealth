@@ -98,7 +98,7 @@ class SalesforceOAuthController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        return to_route('integrations.salesforce.index')->with('success', 'Salesforce connected.');
+        return redirect()->away(rtrim((string) config('app.frontend_url'), '/').'/dashboard/integrations?connected=1');
     }
 
     public function test(Request $request): RedirectResponse
