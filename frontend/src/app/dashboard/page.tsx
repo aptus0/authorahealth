@@ -1,58 +1,15 @@
-"use client";
-
-import { ArrowUpRight, CircleUserRound, FileCheck2, Link2, LogOut, ShieldCheck } from "lucide-react";
-import { BrandMark } from "@/components/brand";
-import { useEffect, useState } from "react";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api.authora-health.test";
-
-type User = { name: string; email: string; organization?: { name: string; subscription?: { plan: string; status: string } } };
+import Link from "next/link";
+import { ArrowRight, Check, CircleCheck, Clock3, FileCheck2, Link2 } from "lucide-react";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/auth/me`, { credentials: "include", headers: { Accept: "application/json" } })
-      .then(async response => {
-        if (!response.ok) throw new Error();
-        setUser((await response.json()).user);
-      })
-      .catch(() => window.location.href = "/login")
-      .finally(() => setChecking(false));
-  }, []);
-
-  async function logout() {
-    await fetch(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include", headers: { Accept: "application/json" } });
-    window.location.href = "/";
-  }
-
-  if (checking) return <main className="grid min-h-screen place-items-center bg-[#05080d] text-cyan-300">Securing your workspace…</main>;
-
-  return (
-    <main className="min-h-screen bg-[#070b11] text-white">
-      <nav className="border-b border-white/10 bg-[#090e16]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <BrandMark />
-          <div className="flex items-center gap-3"><div className="hidden text-right sm:block"><p className="text-sm font-medium">{user?.name}</p><p className="text-xs text-slate-500">{user?.organization?.name}</p></div><button onClick={logout} aria-label="Sign out" className="grid size-10 place-items-center rounded-xl border border-white/10 text-slate-400 hover:text-white"><LogOut className="size-4" /></button></div>
-        </div>
-      </nav>
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <p className="text-sm font-medium text-cyan-300">Authorization operations</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Welcome, {user?.name?.split(" ")[0]}.</h1>
-        <p className="mt-2 text-slate-500">Your secure workspace is ready for configuration.</p>
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {[
-            [FileCheck2, "Authorization intake", "Create the first operational case and documentation checklist."],
-            [Link2, "Connect Salesforce", "Link CRM ownership, cases, and task status through secure OAuth."],
-            [ShieldCheck, "Security posture", "Tenant isolation, encrypted sessions, and audit foundations are active."],
-          ].map(([Icon, title, text]) => {
-            const Component = Icon as typeof FileCheck2;
-            return <article key={title as string} className="rounded-3xl border border-white/10 bg-white/[.035] p-7"><Component className="size-6 text-cyan-300" /><h2 className="mt-8 text-lg font-semibold">{title as string}</h2><p className="mt-3 min-h-14 text-sm leading-6 text-slate-500">{text as string}</p><button className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300">Configure <ArrowUpRight className="size-4" /></button></article>;
-          })}
-        </div>
-        <div className="mt-6 flex items-center justify-between rounded-3xl border border-white/10 bg-[#0b111a] p-6"><div className="flex items-center gap-4"><CircleUserRound className="size-9 text-slate-500" /><div><p className="font-medium">{user?.email}</p><p className="mt-1 text-xs text-slate-500">Plan: {user?.organization?.subscription?.plan ?? "trial"}</p></div></div><span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-300">{user?.organization?.subscription?.status ?? "active"}</span></div>
-      </div>
-    </main>
-  );
+  return <div>
+    <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="text-xs font-semibold uppercase tracking-[.14em] text-teal-700">Workspace overview</p><h1 className="mt-2 text-3xl font-semibold tracking-[-.035em]">Good morning.</h1><p className="mt-2 text-sm text-slate-500">Complete setup, then bring your first authorization into Authora.</p></div><button className="rounded-lg bg-[#123448] px-4 py-2.5 text-sm font-semibold text-white">Create authorization</button></div>
+    <div className="mt-8 grid gap-5 xl:grid-cols-[1.4fr_.6fr]">
+      <section className="rounded-xl border border-slate-200 bg-white p-6"><div className="flex items-center justify-between"><div><p className="text-xs font-semibold text-teal-700">GET STARTED</p><h2 className="mt-1 text-xl font-semibold">Workspace setup</h2></div><span className="text-sm font-semibold text-slate-500">1 of 4</span></div><div className="mt-5 h-1.5 rounded-full bg-slate-100"><div className="h-full w-1/4 rounded-full bg-teal-500" /></div><div className="mt-6 divide-y divide-slate-100">
+        {[["Workspace created", "Organization and tenant boundary are active.", true, "/dashboard"], ["Connect Salesforce", "Authorize your org and review the installation plan.", false, "/dashboard/integrations"], ["Invite your team", "Add operators, reviewers, and administrators.", false, "/dashboard/team"], ["Create a sample case", "Validate your authorization workflow end to end.", false, "/dashboard/cases"]].map(([title, text, done, href]) => <Link href={href as string} key={title as string} className="flex items-center gap-4 py-4"><span className={`grid size-9 place-items-center rounded-full ${done ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"}`}>{done ? <Check className="size-4" /> : <ArrowRight className="size-4" />}</span><span className="flex-1"><span className="block text-sm font-semibold">{title as string}</span><span className="mt-1 block text-xs text-slate-500">{text as string}</span></span></Link>)}
+      </div></section>
+      <section className="rounded-xl border border-slate-200 bg-[#102a3a] p-6 text-white"><Link2 className="size-5 text-[#76e4df]" /><h2 className="mt-6 text-xl font-semibold">Salesforce connection</h2><p className="mt-2 text-sm leading-6 text-slate-300">Connect the organization that will own authorization context and operational status.</p><Link href="/dashboard/integrations" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-[#102a3a]">Start connection <ArrowRight className="size-4" /></Link></section>
+    </div>
+    <div className="mt-5 grid gap-4 sm:grid-cols-3">{[[FileCheck2,"Open authorizations","0"],[Clock3,"Due this week","0"],[CircleCheck,"Ready to submit","0"]].map(([Icon,label,value]) => { const I=Icon as typeof FileCheck2; return <div key={label as string} className="rounded-xl border border-slate-200 bg-white p-5"><I className="size-5 text-teal-700" /><p className="mt-6 text-3xl font-semibold">{value as string}</p><p className="mt-1 text-sm text-slate-500">{label as string}</p></div>; })}</div>
+  </div>;
 }
