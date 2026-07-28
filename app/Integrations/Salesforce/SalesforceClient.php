@@ -10,25 +10,65 @@ use RuntimeException;
 
 final class SalesforceClient
 {
-    public function __construct(private readonly SalesforceConnection $connection)
-    {
-    }
+    public function __construct(private readonly SalesforceConnection $connection) {}
 
     public function get(string $path, array $query = []): Response
     {
-        $response = $this->request()->get($this->url($path), $query);
+        return $this->send('get', $path, $query);
+    }
 
-        if ($response->status() === 401 && $this->connection->refresh_token) {
-            $this->refreshAccessToken();
-            $response = $this->request()->get($this->url($path), $query);
-        }
+    public function post(string $path, array $payload = []): Response
+    {
+        return $this->send('post', $path, $payload);
+    }
 
-        return $response->throw();
+    public function patch(string $path, array $payload = []): Response
+    {
+        return $this->send('patch', $path, $payload);
     }
 
     public function limits(): array
     {
         return $this->get('limits')->json();
+    }
+
+    public function resources(): array
+    {
+        return $this->get('')->json();
+    }
+
+    public function sobjects(): array
+    {
+        return $this->get('sobjects')->json();
+    }
+
+    public function describe(string $object): array
+    {
+        return $this->get('sobjects/'.rawurlencode($object).'/describe')->json();
+    }
+
+    public function query(string $soql): array
+    {
+        return $this->get('query', ['q' => $soql])->json();
+    }
+
+    private function send(string $method, string $path, array $data): Response
+    {
+        $response = $this->request()->{$method}($this->url($path), $data);
+
+        if ($response->status() === 401 && $this->connection->refresh_token) {
+            $this->refreshAccessToken();
+            $response = $this->request()->{$method}($this->url($path), $data);
+        }
+
+        if ($response->failed()) {
+            $this->connection->update([
+                'status' => $response->status() === 401 ? 'reauthorization_required' : 'error',
+                'last_error' => 'Salesforce API request failed with status '.$response->status().'.',
+            ]);
+        }
+
+        return $response->throw();
     }
 
     private function request(): PendingRequest
@@ -43,10 +83,22 @@ final class SalesforceClient
     {
         return sprintf(
             '%s/services/data/%s/%s',
-            rtrim((string) $this->connection->instance_url, '/'),
+            $this->trustedInstanceUrl(),
             config('services.salesforce.api_version'),
             ltrim($path, '/'),
         );
+    }
+
+    private function trustedInstanceUrl(): string
+    {
+        $url = rtrim((string) $this->connection->instance_url, '/');
+        $host = parse_url($url, PHP_URL_HOST);
+
+        if (! is_string($host) || ! str_ends_with(strtolower($host), '.salesforce.com')) {
+            throw new RuntimeException('The Salesforce instance URL is not trusted.');
+        }
+
+        return $url;
     }
 
     private function refreshAccessToken(): void

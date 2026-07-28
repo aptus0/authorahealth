@@ -16,6 +16,11 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
+    public function csrf(Request $request): JsonResponse
+    {
+        return response()->json(['token' => $request->session()->token()]);
+    }
+
     public function register(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -80,6 +85,7 @@ class AuthController extends Controller
     private function payload(User $user): array
     {
         $user->loadMissing('organization.subscription', 'organization.salesforceConnection');
+
         return [
             'id' => $user->id, 'name' => $user->name, 'email' => $user->email,
             'role' => $user->role, 'organization' => $user->organization,
