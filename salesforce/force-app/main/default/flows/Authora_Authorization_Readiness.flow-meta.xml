@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+  <apiVersion>66.0</apiVersion>
+  <description>Marks newly created Authora authorization references for documentation review.</description>
+  <label>Authora Authorization Readiness</label>
+  <processType>AutoLaunchedFlow</processType>
+  <recordUpdates><name>Set_Documentation_Review</name><label>Set Documentation Review</label><locationX>176</locationX><locationY>278</locationY><inputAssignments><field>Status__c</field><value><stringValue>Documentation Required</stringValue></value></inputAssignments><inputReference>$Record</inputReference></recordUpdates>
+  <start><locationX>50</locationX><locationY>0</locationY><connector><targetReference>Set_Documentation_Review</targetReference></connector><filterFormula>ISBLANK({!$Record.Status__c})</filterFormula><object>Authora_Authorization__c</object><recordTriggerType>Create</recordTriggerType><triggerType>RecordAfterSave</triggerType></start>
+  <status>Draft</status>
+</Flow>

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root { --background: #05080d; --foreground: #f8fafc; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: Arial, Helvetica, sans-serif; }
+::selection { background: rgba(103, 232, 249, .28); color: white; }
+.eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #67e8f9; }
+.section-title { margin-top: 1.25rem; font-size: clamp(2.25rem, 5vw, 4rem); line-height: 1.02; letter-spacing: -.045em; font-weight: 600; text-wrap: balance; }
+.auth-grid { background-image: linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px); background-size: 48px 48px; }
+.authora-mark { position: relative; display: inline-block; width: 40px; height: 40px; flex: 0 0 40px; overflow: hidden; border-radius: 13px; background: linear-gradient(145deg,#a5f3fc,#2dd4bf); box-shadow: 0 0 32px rgba(34,211,238,.22), inset 0 1px rgba(255,255,255,.65); }
+.authora-mark i { position: absolute; display: block; border-radius: 4px; background: #071019; }
+.authora-mark-left { width: 5px; height: 23px; left: 12px; top: 9px; transform: rotate(23deg); }
+.authora-mark-right { width: 5px; height: 23px; right: 12px; top: 9px; transform: rotate(-23deg); }
+.authora-mark-bridge { width: 14px; height: 4px; left: 13px; top: 22px; }

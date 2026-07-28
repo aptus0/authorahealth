@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types><members>Authora_Authorization__c</members><members>Authora_Installation__c</members><name>CustomObject</name></types>
+  <types><members>Authora_User</members><name>PermissionSet</name></types>
+  <types><members>Authora_Authorization_Readiness</members><name>Flow</name></types>
+  <version>66.0</version>
+</Package>
