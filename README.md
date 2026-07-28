@@ -18,6 +18,10 @@ Authora Health is a multi-tenant prior authorization operations platform for US 
 - Encrypted Salesforce access and refresh tokens
 - Connection health checks, audit events, and provisioning state
 - Salesforce source package containing custom objects, fields, a validation rule, a permission set, and a readiness Flow
+- Authenticated Salesforce connection status, org assessment, package-plan, and provisioning APIs
+- Queue-backed provisioning validation with explicit administrator and Metadata API approval boundaries
+- Operations workspace with onboarding, authorization, integration, team, security, and settings surfaces
+- Corporate About, Security, Privacy, and Terms pages with a reusable brand system
 - Versioned architecture decisions and automated tests
 
 ## Product architecture
@@ -52,6 +56,18 @@ After an organization administrator connects Salesforce:
 7. After validation, the organization enters the operational dashboard.
 
 Salesforce metadata source is stored under [`salesforce/`](salesforce/). Production deployment remains rollback-on-error and requires explicit organization-admin confirmation.
+
+### Integration API
+
+Authenticated, tenant-scoped endpoints:
+
+```text
+GET  /api/salesforce          Connection state and sanitized package plan
+POST /api/salesforce/assess   Live org capabilities and API capacity
+POST /api/salesforce/install  Queue admin-approved provisioning validation
+```
+
+The current provisioning worker validates connected-org access and advances the installation to `awaiting_metadata_deploy`. It does not claim a completed installation until a production Metadata API transport submits and verifies the package.
 
 ## Security principles
 
