@@ -11,7 +11,6 @@ import {
   LayoutDashboard,
   Network,
   ShieldCheck,
-  Sparkles,
   Workflow,
 } from "lucide-react";
 import { BrandMark } from "@/components/brand";
@@ -53,13 +52,10 @@ export default function Home() {
       </header>
 
       <section className="relative px-6 pb-24 pt-36 sm:pt-44">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[760px] bg-[radial-gradient(circle_at_50%_15%,rgba(104,220,208,.23),transparent_31%),radial-gradient(circle_at_18%_34%,rgba(69,157,255,.10),transparent_24%),radial-gradient(circle_at_85%_40%,rgba(101,79,247,.10),transparent_24%)]" />
+        <div className="welcome-aurora pointer-events-none absolute inset-x-0 top-0 h-[760px] bg-[radial-gradient(circle_at_50%_15%,rgba(104,220,208,.23),transparent_31%),radial-gradient(circle_at_18%_34%,rgba(69,157,255,.10),transparent_24%),radial-gradient(circle_at_85%_40%,rgba(101,79,247,.10),transparent_24%)]" />
         <DotField />
         <div className="relative mx-auto max-w-[1180px] text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#167d78]/15 bg-white/80 px-4 py-2 text-xs font-semibold text-[#146c68] shadow-[0_8px_30px_rgba(30,100,96,.08)] backdrop-blur">
-            <Sparkles className="size-3.5" /> Salesforce-native prior authorization operations
-          </div>
-          <h1 className="mx-auto mt-7 max-w-5xl text-[clamp(3.4rem,7.8vw,7rem)] font-semibold leading-[.9] tracking-[-.072em] text-[#10232c]">
+          <h1 className="mx-auto mt-4 max-w-5xl text-[clamp(3.4rem,7.8vw,7rem)] font-semibold leading-[.9] tracking-[-.072em] text-[#10232c]">
             From intake to payer decision, in one flow.
           </h1>
           <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-slate-600">
@@ -74,7 +70,7 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="relative mx-auto mt-16 max-w-[1120px]">
+          <div className="welcome-product relative mx-auto mt-16 max-w-[1120px]">
             <div className="absolute -inset-12 -z-10 rounded-[80px] bg-[radial-gradient(circle,rgba(84,210,198,.23),transparent_65%)] blur-2xl" />
             <ProductWindow />
           </div>
@@ -82,23 +78,39 @@ export default function Home() {
       </section>
 
       <section className="border-y border-black/[.06] bg-white">
-        <div className="mx-auto grid max-w-[1180px] gap-8 px-6 py-9 lg:grid-cols-[1fr_1.6fr] lg:items-center">
-          <p className="text-sm font-semibold leading-6 text-[#17343d]">Built for accountable healthcare operations across the authorization lifecycle.</p>
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-black/[.06] bg-black/[.06] sm:grid-cols-4">
-            {["Authorization teams", "Clinical reviewers", "Revenue cycle", "Salesforce admins"].map((role) => (
-              <div key={role} className="bg-[#fbfcfa] px-4 py-4 text-center text-xs font-semibold text-slate-500">{role}</div>
-            ))}
+        <div className="mx-auto max-w-[1180px] px-6 py-12">
+          <div className="overflow-hidden rounded-[26px] border border-[#17343d]/10 bg-[#f5f9f8] shadow-[0_22px_65px_rgba(22,52,61,.07)] lg:grid lg:grid-cols-[1.05fr_1.95fr]">
+            <div className="relative overflow-hidden bg-[#12313a] px-7 py-7 text-white">
+              <div className="absolute -right-12 -top-14 size-40 rounded-full border border-[#76e4df]/20 bg-[#76e4df]/10 blur-sm" />
+              <p className="relative text-[10px] font-semibold uppercase tracking-[.2em] text-[#76e4df]">Purpose-built</p>
+              <p className="relative mt-3 max-w-sm text-lg font-semibold leading-6 tracking-[-.025em]">Accountable healthcare operations across the authorization lifecycle.</p>
+            </div>
+            <div className="grid grid-cols-2 bg-white sm:grid-cols-4">
+              {[
+                ["01", "Authorization teams"],
+                ["02", "Clinical reviewers"],
+                ["03", "Revenue cycle"],
+                ["04", "Salesforce admins"],
+              ].map(([number, role], index) => (
+                <div key={role} className={`group relative px-5 py-7 ${index % 2 ? "border-l border-black/[.06]" : ""} ${index > 1 ? "border-t border-black/[.06] sm:border-t-0" : ""} sm:border-l sm:first:border-l-0`}>
+                  <span className="text-[9px] font-semibold tracking-[.18em] text-teal-600">{number}</span>
+                  <p className="mt-4 text-sm font-semibold leading-5 text-[#17343d] transition group-hover:text-teal-700">{role}</p>
+                  <span className="absolute inset-x-5 bottom-0 h-0.5 origin-left scale-x-0 bg-[#76e4df] transition duration-300 group-hover:scale-x-100" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       <section className="relative overflow-hidden bg-[#0d222b] px-6 py-28 text-white">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(118,228,223,.12),transparent_35%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(118,228,223,.17),transparent_30%),radial-gradient(circle_at_15%_75%,rgba(34,116,132,.12),transparent_25%)]" />
+        <div className="authora-orbit pointer-events-none absolute left-1/2 top-24 size-[520px] -translate-x-1/2 rounded-full border border-[#76e4df]/10" />
         <div className="relative mx-auto max-w-[1180px]">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow">How Authora works</p>
-            <h2 className="mt-5 text-5xl font-semibold leading-[.96] tracking-[-.055em] sm:text-6xl">A clear authorization journey, from connection to decision.</h2>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-400">The intro below follows the same workflow your team uses inside the platform.</p>
+            <p className="inline-flex items-center gap-2 rounded-full border border-[#76e4df]/20 bg-[#76e4df]/[.07] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.2em] text-[#8ce9df]"><span className="size-1.5 animate-pulse rounded-full bg-[#76e4df] shadow-[0_0_14px_4px_rgba(118,228,223,.28)]" />How Authora works</p>
+            <h2 className="mt-7 text-5xl font-semibold leading-[.92] tracking-[-.06em] sm:text-7xl">From connection<br /><span className="bg-gradient-to-r from-white via-[#b9faf3] to-[#58d2ca] bg-clip-text text-transparent">to decision.</span></h2>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-slate-400">A guided operating sequence that turns scattered authorization work into one visible, accountable flow.</p>
           </div>
           <div className="relative mt-16 grid gap-4 lg:grid-cols-4">
             <div className="intro-line absolute left-[12%] right-[12%] top-8 hidden h-px bg-white/10 lg:block"><span /></div>
@@ -216,25 +228,59 @@ function DotField() {
 
 function ProductWindow() {
   return (
-    <div className="overflow-hidden rounded-[24px] border border-black/10 bg-[#0c1721] text-left shadow-[0_45px_120px_rgba(23,47,55,.22)]">
-      <div className="flex h-12 items-center border-b border-white/[.08] bg-[#e9edeb] px-4">
-        <div className="flex gap-2"><span className="size-3 rounded-full bg-[#ff5f57]" /><span className="size-3 rounded-full bg-[#febc2e]" /><span className="size-3 rounded-full bg-[#28c840]" /></div>
-        <div className="mx-auto rounded-lg border border-black/[.07] bg-white/70 px-16 py-1.5 text-[10px] text-slate-400 shadow-sm">app.authora.health</div>
-      </div>
-      <div className="grid min-h-[560px] grid-cols-[66px_1fr]">
-        <aside className="border-r border-white/[.07] bg-[#09131c] py-5">
-          <div className="mx-auto grid size-9 place-items-center rounded-xl bg-[#76e4df] font-bold text-[#071019]">A</div>
-          <div className="mt-8 space-y-3">{[LayoutDashboard, FileCheck2, Network, ShieldCheck].map((Icon, index) => <div key={index} className={`mx-auto grid size-9 place-items-center rounded-xl ${index === 0 ? "bg-white/10 text-white" : "text-slate-600"}`}><Icon className="size-4" /></div>)}</div>
-        </aside>
-        <div>
-          <div className="flex items-center justify-between border-b border-white/[.07] px-6 py-4 text-white"><div><p className="text-[10px] uppercase tracking-wider text-slate-500">Operations</p><p className="mt-1 text-sm font-semibold">Authorization command center</p></div><span className="flex items-center gap-2 rounded-full border border-emerald-400/15 bg-emerald-400/[.06] px-3 py-1.5 text-[10px] text-emerald-300"><CircleCheck className="size-3" /> Workspace ready</span></div>
-          <div className="grid grid-cols-3 border-b border-white/[.07] text-white">{[["Open cases", "24"], ["Due today", "6"], ["Ready", "11"]].map(([label, value]) => <div key={label} className="border-r border-white/[.07] p-5 last:border-0"><p className="text-[10px] text-slate-500">{label}</p><p className="mt-1 text-2xl font-semibold">{value}</p></div>)}</div>
-          <div className="p-6 text-white"><div className="mb-4 flex items-center justify-between"><p className="text-xs font-semibold">Priority work queue</p><span className="text-[10px] text-slate-500">Updated just now</span></div>
-            <div className="overflow-hidden rounded-xl border border-white/[.07]">{cases.map(([id, service, status, date, tone]) => <div key={id} className="grid grid-cols-[.75fr_1.2fr_1.25fr_.65fr] gap-2 border-b border-white/[.06] bg-[#0a141e] px-4 py-4 text-[10px] last:border-0"><span className="font-medium text-[#76e4df]">{id}</span><span>{service}</span><span className={tone === "green" ? "text-emerald-300" : tone === "amber" ? "text-amber-300" : "text-sky-300"}>{status}</span><span className="text-right text-slate-500">{date}</span></div>)}</div>
-            <div className="mt-5 grid grid-cols-2 gap-4"><div className="rounded-xl border border-white/[.07] bg-[#0a141e] p-4"><p className="text-[10px] text-slate-500">Documentation readiness</p><div className="mt-4 h-1.5 rounded-full bg-white/[.07]"><div className="h-full w-[78%] rounded-full bg-[#76e4df]" /></div><div className="mt-3 flex justify-between text-[10px]"><span>18 complete</span><span className="text-slate-500">5 need review</span></div></div><div className="rounded-xl border border-white/[.07] bg-[#0a141e] p-4"><p className="text-[10px] text-slate-500">Salesforce connection</p><div className="mt-3 flex items-center gap-3"><SalesforceLogo className="h-8 w-12" /><div><p className="text-[10px] font-medium">Connected org</p><p className="text-[9px] text-emerald-300">Healthy</p></div></div></div></div>
+    <div className="macbook-device text-left">
+      <div className="macbook-screen-shell">
+        <div className="macbook-camera"><span /></div>
+        <div className="overflow-hidden rounded-[12px] bg-[#0c1721]">
+          <div className="flex h-11 items-center border-b border-black/10 bg-[#edf0ef] px-4">
+            <div className="flex gap-2"><span className="size-3 rounded-full bg-[#ff5f57] shadow-inner" /><span className="size-3 rounded-full bg-[#febc2e] shadow-inner" /><span className="size-3 rounded-full bg-[#28c840] shadow-inner" /></div>
+            <div className="mx-auto flex items-center gap-2 rounded-lg border border-black/[.07] bg-white/75 px-12 py-1.5 text-[9px] text-slate-400 shadow-sm"><LockDot /> app.authora.health</div>
+          </div>
+          <div className="grid min-h-[520px] grid-cols-[62px_1fr]">
+            <aside className="border-r border-white/[.07] bg-[#09131c] py-5">
+              <div className="mx-auto grid size-9 place-items-center rounded-xl bg-[#76e4df] font-bold text-[#071019]">A</div>
+              <div className="mt-8 space-y-3">{[LayoutDashboard, FileCheck2, Network, ShieldCheck].map((Icon, index) => <div key={index} className={`mx-auto grid size-9 place-items-center rounded-xl ${index === 0 ? "bg-white/10 text-white" : "text-slate-600"}`}><Icon className="size-4" /></div>)}</div>
+            </aside>
+            <div>
+              <div className="flex items-center justify-between border-b border-white/[.07] px-6 py-4 text-white"><div><p className="text-[9px] uppercase tracking-wider text-slate-500">Operations</p><p className="mt-1 text-sm font-semibold">Authorization command center</p></div><span className="flex items-center gap-2 rounded-full border border-emerald-400/15 bg-emerald-400/[.06] px-3 py-1.5 text-[9px] text-emerald-300"><CircleCheck className="size-3" /> Workspace ready</span></div>
+              <div className="grid grid-cols-3 border-b border-white/[.07] text-white">{[["Open cases", "24"], ["Due today", "6"], ["Ready", "11"]].map(([label, value]) => <div key={label} className="border-r border-white/[.07] p-4 last:border-0"><p className="text-[9px] text-slate-500">{label}</p><p className="mt-1 text-xl font-semibold">{value}</p></div>)}</div>
+              <div className="p-5 text-white"><div className="mb-4 flex items-center justify-between"><p className="text-xs font-semibold">Priority work queue</p><span className="text-[9px] text-slate-500">Updated just now</span></div>
+                <div className="overflow-hidden rounded-xl border border-white/[.07]">{cases.map(([id, service, status, date, tone]) => <div key={id} className="grid grid-cols-[.75fr_1.2fr_1.25fr_.65fr] gap-2 border-b border-white/[.06] bg-[#0a141e] px-4 py-3.5 text-[9px] last:border-0"><span className="font-medium text-[#76e4df]">{id}</span><span>{service}</span><span className={tone === "green" ? "text-emerald-300" : tone === "amber" ? "text-amber-300" : "text-sky-300"}>{status}</span><span className="text-right text-slate-500">{date}</span></div>)}</div>
+                <div className="mt-4 grid grid-cols-2 gap-4"><div className="rounded-xl border border-white/[.07] bg-[#0a141e] p-4"><p className="text-[9px] text-slate-500">Documentation readiness</p><div className="mt-4 h-1.5 rounded-full bg-white/[.07]"><div className="h-full w-[78%] rounded-full bg-[#76e4df]" /></div><div className="mt-3 flex justify-between text-[9px]"><span>18 complete</span><span className="text-slate-500">5 need review</span></div></div><div className="rounded-xl border border-white/[.07] bg-[#0a141e] p-4"><p className="text-[9px] text-slate-500">Salesforce connection</p><div className="mt-3 flex items-center gap-3"><SalesforceLogo className="h-8 w-12" /><div><p className="text-[9px] font-medium">Connected org</p><p className="text-[8px] text-emerald-300">Healthy</p></div></div></div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <MacKeyboard />
+    </div>
+  );
+}
+
+function LockDot() {
+  return <span className="relative block h-2.5 w-2 rounded-[2px] border border-slate-400 before:absolute before:-top-1.5 before:left-1/2 before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:rounded-t-full before:border before:border-b-0 before:border-slate-400" aria-hidden="true" />;
+}
+
+function MacKeyboard() {
+  const rows = [
+    ["esc","1","2","3","4","5","6","7","8","9","0","-","=","⌫"],
+    ["tab","Q","W","E","R","T","Y","U","I","O","P","[","]","\\"],
+    ["caps","A","S","D","F","G","H","J","K","L",";",["return","wide"]],
+    ["shift","Z","X","C","V","B","N","M",",",".","/",["shift","wide"]],
+    ["","","","⌘",["","space"],"⌘","","←","↑","→"],
+  ] as const;
+
+  return (
+    <div className="macbook-base" aria-hidden="true">
+      <div className="macbook-keyboard">
+        {rows.map((row, rowIndex) => <div key={rowIndex} className="mac-key-row">{row.map((key, keyIndex) => {
+          const value = Array.isArray(key) ? key[0] : key;
+          const size = Array.isArray(key) ? key[1] : "";
+          return <span key={`${value}-${keyIndex}`} className={`mac-key ${size === "wide" ? "mac-key-wide" : ""} ${size === "space" ? "mac-key-space" : ""}`}>{value}</span>;
+        })}</div>)}
+      </div>
+      <div className="macbook-trackpad" />
+      <div className="macbook-lip" />
     </div>
   );
 }
