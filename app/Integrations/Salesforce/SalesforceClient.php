@@ -10,7 +10,10 @@ use RuntimeException;
 
 final class SalesforceClient
 {
-    public function __construct(private readonly SalesforceConnection $connection) {}
+    public function __construct(
+        private readonly SalesforceConnection $connection,
+        private readonly SalesforceTokenManager $tokens = new SalesforceTokenManager,
+    ) {}
 
     public function get(string $path, array $query = []): Response
     {
@@ -25,6 +28,29 @@ final class SalesforceClient
     public function patch(string $path, array $payload = []): Response
     {
         return $this->send('patch', $path, $payload);
+    }
+
+    public function delete(string $path, array $query = []): Response
+    {
+        return $this->send('delete', $path, $query);
+    }
+
+    public function composite(array $requests, bool $allOrNone = true): array
+    {
+        return $this->post('composite', [
+            'allOrNone' => $allOrNone,
+            'compositeRequest' => $requests,
+        ])->json();
+    }
+
+    public function createRecord(string $object, array $attributes): array
+    {
+        return $this->post('sobjects/'.rawurlencode($object), $attributes)->json();
+    }
+
+    public function updateRecord(string $object, string $recordId, array $attributes): void
+    {
+        $this->patch('sobjects/'.rawurlencode($object).'/'.rawurlencode($recordId), $attributes);
     }
 
     public function limits(): array
@@ -56,8 +82,8 @@ final class SalesforceClient
     {
         $response = $this->request()->{$method}($this->url($path), $data);
 
-        if ($response->status() === 401 && $this->connection->refresh_token) {
-            $this->refreshAccessToken();
+        if ($response->status() === 401) {
+            $this->tokens->refresh($this->connection);
             $response = $this->request()->{$method}($this->url($path), $data);
         }
 
@@ -75,8 +101,9 @@ final class SalesforceClient
     {
         return Http::acceptJson()
             ->withToken($this->connection->access_token)
-            ->timeout(20)
-            ->retry(2, 250, throw: false);
+            ->withHeaders(['Sforce-Call-Options' => 'client=AuthoraHealth'])
+            ->timeout((int) config('services.salesforce.request_timeout', 25))
+            ->retry(2, 300, throw: false);
     }
 
     private function url(string $path): string
@@ -99,31 +126,5 @@ final class SalesforceClient
         }
 
         return $url;
-    }
-
-    private function refreshAccessToken(): void
-    {
-        $response = Http::asForm()->post(
-            rtrim(config('services.salesforce.login_url'), '/').'/services/oauth2/token',
-            [
-                'grant_type' => 'refresh_token',
-                'client_id' => config('services.salesforce.client_id'),
-                'client_secret' => config('services.salesforce.client_secret'),
-                'refresh_token' => $this->connection->refresh_token,
-            ],
-        );
-
-        if ($response->failed()) {
-            $this->connection->update(['status' => 'error', 'last_error' => 'Salesforce token refresh failed.']);
-            throw new RuntimeException('Unable to refresh the Salesforce access token.');
-        }
-
-        $this->connection->update([
-            'access_token' => $response->json('access_token'),
-            'instance_url' => $response->json('instance_url', $this->connection->instance_url),
-            'refresh_token' => $response->json('refresh_token', $this->connection->refresh_token),
-            'status' => 'connected',
-            'last_error' => null,
-        ]);
     }
 }

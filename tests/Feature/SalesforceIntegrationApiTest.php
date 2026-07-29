@@ -23,7 +23,7 @@ class SalesforceIntegrationApiTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('connection.salesforce_org_id', '00D-authora')
-            ->assertJsonPath('package.version', '0.1.0')
+            ->assertJsonPath('package.version', '0.2.0')
             ->assertJsonMissing(['access_token' => 'access-secret'])
             ->assertJsonMissing(['refresh_token' => 'refresh-secret']);
     }
@@ -51,6 +51,11 @@ class SalesforceIntegrationApiTest extends TestCase
             ->assertJsonPath('assessment.capabilities.case', true)
             ->assertJsonPath('assessment.capabilities.health_cloud', true)
             ->assertJsonPath('assessment.api_usage.daily_remaining', 14950);
+
+        $this->assertDatabaseHas('salesforce_connections', [
+            'organization_id' => $user->organization_id,
+            'status' => 'connected',
+        ]);
     }
 
     public function test_organization_admin_can_queue_provisioning_validation(): void
@@ -67,6 +72,22 @@ class SalesforceIntegrationApiTest extends TestCase
             'provisioning_progress' => 15,
         ]);
         Queue::assertPushed(ProvisionSalesforceOrg::class, fn ($job) => $job->connectionId === $connection->id);
+    }
+
+    public function test_deployment_endpoint_returns_sanitized_operational_state(): void
+    {
+        [$user, $connection] = $this->connectedUser();
+        $connection->update([
+            'provisioning_status' => 'deploying',
+            'deployment_id' => '0Af-authora',
+            'deployment_result' => ['status' => 'InProgress', 'done' => false, 'success' => false],
+        ]);
+
+        $this->actingAs($user)->getJson('/api/salesforce/deployment')
+            ->assertOk()
+            ->assertJsonPath('connection.deployment_id', '0Af-authora')
+            ->assertJsonPath('connection.deployment_result.status', 'InProgress')
+            ->assertJsonMissing(['access_token' => 'access-secret']);
     }
 
     public function test_non_admin_cannot_start_salesforce_installation(): void

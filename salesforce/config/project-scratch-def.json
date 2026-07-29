@@ -1,0 +1,10 @@
+{
+  "orgName": "Authora Health Development",
+  "edition": "Enterprise",
+  "features": ["ServiceCloud"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    }
+  }
+}

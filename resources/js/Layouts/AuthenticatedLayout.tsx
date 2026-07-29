@@ -14,8 +14,8 @@ export default function Authenticated({
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+        <div className="min-h-screen bg-[#f5f7f9]">
+            <nav className="sticky top-0 z-40 border-b border-white/70 bg-white/80 shadow-[0_12px_38px_-28px_rgba(15,23,42,.55)] backdrop-blur-xl">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -38,6 +38,12 @@ export default function Authenticated({
                                     active={route().current('integrations.salesforce.*')}
                                 >
                                     Integrations
+                                </NavLink>
+                                <NavLink
+                                    href={route('settings.ai.edit')}
+                                    active={route().current('settings.ai.*')}
+                                >
+                                    Intelligence
                                 </NavLink>
                             </div>
                         </div>
@@ -143,6 +149,18 @@ export default function Authenticated({
                         >
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('integrations.salesforce.index')}
+                            active={route().current('integrations.salesforce.*')}
+                        >
+                            Integrations
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('settings.ai.edit')}
+                            active={route().current('settings.ai.*')}
+                        >
+                            Intelligence
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="border-t border-gray-200 pb-1 pt-4">
@@ -172,7 +190,7 @@ export default function Authenticated({
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="border-b border-white/70 bg-white/75 shadow-[0_18px_50px_-38px_rgba(15,23,42,.5)] backdrop-blur-xl">
                     <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
                         {header}
                     </div>
