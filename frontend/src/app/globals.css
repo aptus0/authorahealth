@@ -29,6 +29,48 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 .intro-card { animation: intro-card-in 5.6s ease-in-out infinite; }
 .intro-line { overflow: hidden; }
 .intro-line span { display: block; width: 24%; height: 100%; background: linear-gradient(90deg,transparent,#76e4df,transparent); animation: intro-line-run 5.6s linear infinite; }
+@keyframes welcome-aurora-breathe {
+  0%, 100% { opacity: .72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes welcome-product-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes footer-sun-breathe {
+  0%, 100% { opacity: .78; filter: saturate(.85) blur(0); }
+  50% { opacity: .98; filter: saturate(1.05) blur(.5px); }
+}
+@keyframes authora-orbit-drift {
+  0%, 100% { transform: translateX(-50%) rotate(0deg) scale(1); opacity: .35; }
+  50% { transform: translateX(-50%) rotate(8deg) scale(1.08); opacity: .7; }
+}
+.welcome-aurora { transform-origin: top center; animation: welcome-aurora-breathe 9s ease-in-out infinite; }
+.welcome-product { animation: welcome-product-float 7s ease-in-out infinite; }
+.footer-grid { background-image: linear-gradient(rgba(118,228,223,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(118,228,223,.055) 1px,transparent 1px); background-size: 56px 56px; mask-image: linear-gradient(to bottom,black,transparent 78%); }
+.footer-sun { background: radial-gradient(circle at 50% 15%,rgba(198,255,246,.88),rgba(81,207,196,.64) 24%,rgba(22,130,124,.4) 51%,rgba(5,47,53,.12) 72%); box-shadow: 0 -28px 110px rgba(76,222,207,.2),inset 0 20px 70px rgba(224,255,251,.18); animation: footer-sun-breathe 8s ease-in-out infinite; }
+.authora-orbit { box-shadow: 0 0 120px rgba(118,228,223,.07),inset 0 0 80px rgba(118,228,223,.04); animation: authora-orbit-drift 10s ease-in-out infinite; }
+.macbook-device { position: relative; padding: 0 2.5%; filter: drop-shadow(0 42px 45px rgba(16,35,43,.22)); }
+.macbook-screen-shell { position: relative; z-index: 2; overflow: hidden; padding: 16px 16px 17px; border: 1px solid #74797c; border-radius: 24px 24px 8px 8px; background: linear-gradient(145deg,#202326,#07090a 58%,#2d3032); box-shadow: inset 0 0 0 1px rgba(255,255,255,.09),0 2px 2px rgba(0,0,0,.35); }
+.macbook-camera { position: absolute; left: 50%; top: 4px; z-index: 5; width: 58px; height: 10px; transform: translateX(-50%); border-radius: 0 0 9px 9px; background: #050607; }
+.macbook-camera span { position: absolute; left: 50%; top: 2px; width: 4px; height: 4px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle at 35% 35%,#35516e,#07111b 65%); box-shadow: 0 0 3px rgba(64,138,205,.5); }
+.macbook-base { position: relative; z-index: 1; width: 108%; margin-left: -4%; padding: 20px 7% 38px; border: 1px solid #a7abad; border-radius: 5px 5px 42px 42px; background: linear-gradient(165deg,#f1f2f2 0%,#c8cbcc 45%,#aeb2b4 70%,#e1e3e3 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.9),0 18px 28px rgba(15,35,43,.17); transform: perspective(1000px) rotateX(55deg); transform-origin: top center; }
+.macbook-keyboard { display: grid; gap: 5px; width: 74%; }
+.mac-key-row { display: flex; gap: 5px; }
+.mac-key { display: grid; height: 25px; min-width: 25px; flex: 1; place-items: center; border: 1px solid #101214; border-radius: 4px; background: linear-gradient(#333638,#161819); color: #dce0e1; font-size: 7px; line-height: 1; box-shadow: inset 0 1px 0 rgba(255,255,255,.13),0 2px 1px rgba(0,0,0,.28); text-transform: lowercase; }
+.mac-key-wide { flex: 1.75; }
+.mac-key-space { flex: 5; }
+.macbook-trackpad { position: absolute; right: 8%; top: 21px; width: 20%; height: 108px; border: 1px solid rgba(104,109,112,.46); border-radius: 8px; background: linear-gradient(145deg,rgba(255,255,255,.22),rgba(140,145,147,.08)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+.macbook-lip { position: absolute; bottom: -1px; left: 42%; width: 16%; height: 7px; border-radius: 10px 10px 0 0; background: linear-gradient(#85898b,#d9dbdc); box-shadow: inset 0 1px rgba(255,255,255,.7); }
+@media (max-width: 720px) {
+  .macbook-device { padding: 0; }
+  .macbook-screen-shell { padding: 9px; border-radius: 16px 16px 5px 5px; }
+  .macbook-base { padding-top: 12px; padding-bottom: 22px; }
+  .mac-key-row { gap: 2px; }
+  .macbook-keyboard { gap: 2px; }
+  .mac-key { height: 14px; min-width: 10px; border-radius: 2px; font-size: 0; }
+  .macbook-trackpad { top: 12px; height: 58px; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .intro-card, .intro-line span { animation: none; }
+  .intro-card, .intro-line span, .welcome-aurora, .welcome-product, .footer-sun, .authora-orbit { animation: none; }
 }
