@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-  <apiVersion>66.0</apiVersion>
-  <description>Marks newly created Authora authorization references for documentation review.</description>
-  <label>Authora Authorization Readiness</label>
-  <processType>AutoLaunchedFlow</processType>
-  <recordUpdates><name>Set_Documentation_Review</name><label>Set Documentation Review</label><locationX>176</locationX><locationY>278</locationY><inputAssignments><field>Status__c</field><value><stringValue>Documentation Required</stringValue></value></inputAssignments><inputReference>$Record</inputReference></recordUpdates>
-  <start><locationX>50</locationX><locationY>0</locationY><connector><targetReference>Set_Documentation_Review</targetReference></connector><filterFormula>ISBLANK({!$Record.Status__c})</filterFormula><object>Authora_Authorization__c</object><recordTriggerType>Create</recordTriggerType><triggerType>RecordAfterSave</triggerType></start>
-  <status>Draft</status>
+    <apiVersion>66.0</apiVersion>
+    <decisions><name>Ready_For_Submission</name><label>Ready for Submission</label><locationX>176</locationX><locationY>286</locationY>
+        <defaultConnectorLabel>Not ready</defaultConnectorLabel>
+        <rules><name>Required_Fields_Present</name><conditionLogic>and</conditionLogic>
+            <conditions><leftValueReference>$Record.Service_Date__c</leftValueReference><operator>IsNull</operator><rightValue><booleanValue>false</booleanValue></rightValue></conditions>
+            <conditions><leftValueReference>$Record.Authora_Case_Id__c</leftValueReference><operator>IsNull</operator><rightValue><booleanValue>false</booleanValue></rightValue></conditions>
+            <connector><targetReference>Mark_Ready</targetReference></connector><label>Required fields present</label>
+        </rules>
+    </decisions>
+    <interviewLabel>Authora Authorization Readiness {!$Flow.CurrentDateTime}</interviewLabel><label>Authora Authorization Readiness</label>
+    <processMetadataValues><name>BuilderType</name><value><stringValue>LightningFlowBuilder</stringValue></value></processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates><name>Mark_Ready</name><label>Mark Ready</label><locationX>176</locationX><locationY>430</locationY>
+        <inputAssignments><field>Status__c</field><value><stringValue>Ready</stringValue></value></inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start><locationX>50</locationX><locationY>0</locationY><connector><targetReference>Ready_For_Submission</targetReference></connector>
+        <object>Authora_Authorization__c</object><recordTriggerType>CreateAndUpdate</recordTriggerType><triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
 </Flow>

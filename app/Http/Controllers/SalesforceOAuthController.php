@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Integrations\Salesforce\SalesforceClient;
+use App\Integrations\Salesforce\SalesforcePackagePlan;
+use App\Jobs\ProvisionSalesforceOrg;
 use App\Models\AuditEvent;
 use App\Models\SalesforceConnection;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +16,7 @@ use Inertia\Response;
 
 class SalesforceOAuthController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request, SalesforcePackagePlan $plan): Response
     {
         $connection = SalesforceConnection::where('organization_id', $request->user()->organization_id)->first();
 
@@ -27,7 +29,18 @@ class SalesforceOAuthController extends Controller
                 'connected_at' => $connection->connected_at?->toIso8601String(),
                 'last_synced_at' => $connection->last_synced_at?->toIso8601String(),
                 'last_error' => $connection->last_error,
+                'provisioning_status' => $connection->provisioning_status,
+                'provisioning_progress' => $connection->provisioning_progress,
+                'provisioning_step' => $connection->provisioning_step,
+                'provisioned_at' => $connection->provisioned_at?->toIso8601String(),
+                'api_version' => $connection->api_version,
+                'environment' => $connection->environment,
+                'assessment' => $connection->assessment,
+                'assessed_at' => $connection->assessed_at?->toIso8601String(),
+                'deployment_result' => $connection->deployment_result,
             ] : null,
+            'package' => $plan->manifest(),
+            'metadataDeploymentEnabled' => (bool) config('services.salesforce.metadata_deploy_enabled'),
         ]);
     }
 
@@ -76,6 +89,8 @@ class SalesforceOAuthController extends Controller
                 'salesforce_org_id' => $identity['organization_id'] ?? null,
                 'salesforce_user_id' => $identity['user_id'] ?? null,
                 'instance_url' => $token['instance_url'],
+                'api_version' => config('services.salesforce.api_version'),
+                'environment' => str_contains((string) config('services.salesforce.login_url'), 'test.salesforce.com') ? 'sandbox' : 'production',
                 'access_token' => $token['access_token'],
                 'refresh_token' => $token['refresh_token'] ?? null,
                 'token_type' => $token['token_type'] ?? 'Bearer',
@@ -86,6 +101,12 @@ class SalesforceOAuthController extends Controller
                 'provisioning_step' => 'Connection verified; metadata installation is ready.',
                 'connected_at' => now(),
                 'last_error' => null,
+                'assessment' => null,
+                'assessed_at' => null,
+                'deployment_id' => null,
+                'deployment_result' => null,
+                'deployment_started_at' => null,
+                'deployment_checked_at' => null,
             ],
         );
 
@@ -97,6 +118,13 @@ class SalesforceOAuthController extends Controller
             'auditable_id' => $connection->id,
             'ip_address' => $request->ip(),
         ]);
+
+        $connection->update([
+            'provisioning_status' => 'queued',
+            'provisioning_progress' => 15,
+            'provisioning_step' => 'Connection verified; automatic org setup queued.',
+        ]);
+        ProvisionSalesforceOrg::dispatch($connection->id, $request->user()->id);
 
         return redirect()->away(rtrim((string) config('app.frontend_url'), '/').'/dashboard/integrations?connected=1');
     }

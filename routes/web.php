@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SalesforceOAuthController;
+use App\Http\Controllers\AiSettingsController;
 use App\Http\Controllers\Auth\SalesforceIdentityController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalesforceOAuthController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,6 +25,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified', 'organization'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/settings/ai', [AiSettingsController::class, 'edit'])->name('settings.ai.edit');
+    Route::put('/settings/ai', [AiSettingsController::class, 'update'])->name('settings.ai.update');
+    Route::post('/settings/ai/test', [AiSettingsController::class, 'test'])->name('settings.ai.test');
+    Route::delete('/settings/ai', [AiSettingsController::class, 'destroy'])->name('settings.ai.destroy');
 
     Route::prefix('settings/integrations/salesforce')->name('integrations.salesforce.')->group(function () {
         Route::get('/', [SalesforceOAuthController::class, 'index'])->name('index');

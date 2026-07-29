@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <itemInstances><componentInstance><componentName>force:richText</componentName>
+            <componentInstanceProperties><name>richTextValue</name><value>&lt;h1&gt;Authora Health Operations&lt;/h1&gt;&lt;p&gt;Prior authorization readiness, ownership and deployment status.&lt;/p&gt;</value></componentInstanceProperties>
+        </componentInstance></itemInstances>
+        <itemInstances><componentInstance><componentName>flexipage:filterListCard</componentName>
+            <componentInstanceProperties><name>entityName</name><value>Authora_Authorization__c</value></componentInstanceProperties>
+            <componentInstanceProperties><name>filterName</name><value>Recent</value></componentInstanceProperties>
+            <componentInstanceProperties><name>pageSize</name><value>10</value></componentInstanceProperties>
+        </componentInstance></itemInstances>
+        <name>main</name><type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Authora Operations Home</masterLabel>
+    <template><name>flexipage:appHomeTemplateOneRegion</name></template>
+    <type>AppPage</type>
+</FlexiPage>

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Model;
 
 #[Fillable(['public_id', 'name', 'slug', 'timezone', 'status', 'settings'])]
 class Organization extends Model
@@ -36,5 +36,10 @@ class Organization extends Model
     public function salesforceConnection(): HasOne
     {
         return $this->hasOne(SalesforceConnection::class);
+    }
+
+    public function aiProviderCredential(): HasOne
+    {
+        return $this->hasOne(AiProviderCredential::class);
     }
 }

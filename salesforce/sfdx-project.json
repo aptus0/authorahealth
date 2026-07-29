@@ -1,6 +1,15 @@
 {
-  "packageDirectories": [{ "path": "force-app", "default": true }],
-  "name": "Authora Health Salesforce Foundation",
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true,
+      "package": "Authora Health",
+      "versionName": "Authora Health 0.2",
+      "versionNumber": "0.2.0.NEXT"
+    }
+  ],
+  "name": "authora-health-salesforce",
   "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "66.0"
 }

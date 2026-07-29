@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata"><description>Minimum access to Authora operational references.</description><hasActivationRequired>false</hasActivationRequired><label>Authora User</label><objectPermissions><allowCreate>true</allowCreate><allowDelete>false</allowDelete><allowEdit>true</allowEdit><allowRead>true</allowRead><modifyAllRecords>false</modifyAllRecords><object>Authora_Authorization__c</object><viewAllRecords>false</viewAllRecords></objectPermissions></PermissionSet>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired><label>Authora User</label>
+    <objectPermissions><allowCreate>true</allowCreate><allowDelete>false</allowDelete><allowEdit>true</allowEdit><allowRead>true</allowRead><modifyAllRecords>false</modifyAllRecords><object>Authora_Authorization__c</object><viewAllRecords>false</viewAllRecords></objectPermissions>
+    <objectPermissions><allowCreate>true</allowCreate><allowDelete>false</allowDelete><allowEdit>true</allowEdit><allowRead>true</allowRead><modifyAllRecords>false</modifyAllRecords><object>Authora_Evidence__c</object><viewAllRecords>false</viewAllRecords></objectPermissions>
+    <objectPermissions><allowCreate>false</allowCreate><allowDelete>false</allowDelete><allowEdit>false</allowEdit><allowRead>true</allowRead><modifyAllRecords>false</modifyAllRecords><object>Authora_Installation__c</object><viewAllRecords>false</viewAllRecords></objectPermissions>
+    <tabSettings><tab>Authora_Authorization__c</tab><visibility>Visible</visibility></tabSettings>
+    <tabSettings><tab>Authora_Evidence__c</tab><visibility>Visible</visibility></tabSettings>
+    <tabSettings><tab>Authora_Installation__c</tab><visibility>Visible</visibility></tabSettings>
+</PermissionSet>

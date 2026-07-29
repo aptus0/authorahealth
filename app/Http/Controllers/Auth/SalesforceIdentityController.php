@@ -18,7 +18,12 @@ class SalesforceIdentityController extends Controller
 {
     public function redirect(Request $request): RedirectResponse
     {
-        abort_unless(filled(config('services.salesforce.client_id')), 503, 'Salesforce sign-in is not configured.');
+        if (blank(config('services.salesforce.client_id')) || blank(config('services.salesforce.client_secret'))) {
+            return redirect()->away(
+                rtrim((string) config('app.frontend_url'), '/').'/login?salesforce=not-configured',
+            );
+        }
+
         $state = Str::random(64);
         $request->session()->put('salesforce_identity_state', $state);
 
@@ -51,7 +56,9 @@ class SalesforceIdentityController extends Controller
 
         $user = DB::transaction(function () use ($identity, $email): User {
             $user = User::where('email', $email)->first();
-            if ($user) return $user;
+            if ($user) {
+                return $user;
+            }
 
             $orgId = $identity['organization_id'];
             $organization = Organization::firstOrCreate(

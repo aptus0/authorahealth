@@ -41,6 +41,10 @@ return [
         'login_url' => env('SALESFORCE_LOGIN_URL', 'https://login.salesforce.com'),
         'api_version' => env('SALESFORCE_API_VERSION', 'v66.0'),
         'scopes' => env('SALESFORCE_SCOPES', 'api refresh_token'),
+        'metadata_deploy_enabled' => env('SALESFORCE_METADATA_DEPLOY_ENABLED', false),
+        'request_timeout' => env('SALESFORCE_REQUEST_TIMEOUT', 25),
+        'deployment_poll_seconds' => env('SALESFORCE_DEPLOYMENT_POLL_SECONDS', 10),
+        'deployment_max_checks' => env('SALESFORCE_DEPLOYMENT_MAX_CHECKS', 60),
     ],
 
 ];
